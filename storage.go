@@ -64,6 +64,32 @@ func NewDiskImageStorageDeviceAttachment(diskPath string, readOnly bool) (*DiskI
 	return attachment, nil
 }
 
+func NewDiskImageStorageDeviceAttachmentWithOptions(diskPath string, readOnly bool, cachingMode int, synchronizationMode int) (*DiskImageStorageDeviceAttachment, error) {
+	nserr := newNSErrorAsNil()
+	nserrPtr := nserr.Ptr()
+
+	diskPathChar := charWithGoString(diskPath)
+	defer diskPathChar.Free()
+	attachment := &DiskImageStorageDeviceAttachment{
+		pointer: pointer{
+			ptr: C.newVZDiskImageStorageDeviceAttachmentWithOptions(
+				diskPathChar.CString(),
+				C.bool(readOnly),
+				C.int(cachingMode),
+				C.int(synchronizationMode),
+				&nserrPtr,
+			),
+		},
+	}
+	if err := newNSError(nserrPtr); err != nil {
+		return nil, err
+	}
+	runtime.SetFinalizer(attachment, func(self *DiskImageStorageDeviceAttachment) {
+		self.Release()
+	})
+	return attachment, nil
+}
+
 // StorageDeviceConfiguration for a storage device configuration.
 type StorageDeviceConfiguration interface {
 	NSObject
