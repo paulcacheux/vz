@@ -39,18 +39,13 @@ char *copyCString(NSString *nss)
 @implementation ErrorDelegate
 - (id)init {
     self = [super init];
-    if (self) {
-        self.error = nil;
-    }
     return self;
 }
 
 - (void)guestDidStopVirtualMachine:(VZVirtualMachine *)virtualMachine {
-    self.error = nil;
 }
 
 - (void)virtualMachine:(VZVirtualMachine *)virtualMachine didStopWithError:(NSError *)error {
-    self.error = error;
     NSLog(@"Error: %@ %@", error, [error userInfo]);
 }
 @end

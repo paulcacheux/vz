@@ -24,7 +24,6 @@ bool shouldAcceptNewConnectionHandler(void *listener, void *connection, void *so
 @interface ErrorDelegate : NSObject <VZVirtualMachineDelegate>
 - (void)guestDidStopVirtualMachine:(VZVirtualMachine *)virtualMachine;
 - (void)virtualMachine:(VZVirtualMachine *)virtualMachine didStopWithError:(NSError *)error;
-@property(nullable) NSError *error;
 @end
 
 /* VZVirtioSocketListener */
