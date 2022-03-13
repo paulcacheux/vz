@@ -64,7 +64,23 @@ func NewDiskImageStorageDeviceAttachment(diskPath string, readOnly bool) (*DiskI
 	return attachment, nil
 }
 
-func NewDiskImageStorageDeviceAttachmentWithOptions(diskPath string, readOnly bool, cachingMode int, synchronizationMode int) (*DiskImageStorageDeviceAttachment, error) {
+type DiskImageCachingMode int
+
+const (
+	DiskImageCachingModeAutomatic DiskImageCachingMode = iota
+	DiskImageCachingModeUncached
+	DiskImageCachingModeCached
+)
+
+type DiskImageSynchronizationMode int
+
+const (
+	DiskImageSynchronizationModeFull DiskImageSynchronizationMode = iota + 1
+	DiskImageSynchronizationModeFsync
+	DiskImageSynchronizationModeNone
+)
+
+func NewDiskImageStorageDeviceAttachmentWithOptions(diskPath string, readOnly bool, cachingMode DiskImageCachingMode, synchronizationMode DiskImageSynchronizationMode) (*DiskImageStorageDeviceAttachment, error) {
 	nserr := newNSErrorAsNil()
 	nserrPtr := nserr.Ptr()
 
