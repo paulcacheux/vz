@@ -36,6 +36,25 @@ char *copyCString(NSString *nss)
 }
 @end
 
+@implementation ErrorDelegate
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.error = nil;
+    }
+    return self;
+}
+
+- (void)guestDidStopVirtualMachine:(VZVirtualMachine *)virtualMachine {
+    self.error = nil;
+}
+
+- (void)virtualMachine:(VZVirtualMachine *)virtualMachine didStopWithError:(NSError *)error {
+    self.error = error;
+    NSLog(@"Error: %@ %@", error, [error userInfo]);
+}
+@end
+
 @implementation VZVirtioSocketListenerDelegateImpl
 - (BOOL)listener:(VZVirtioSocketListener *)listener shouldAcceptNewConnection:(VZVirtioSocketConnection *)connection fromSocketDevice:(VZVirtioSocketDevice *)socketDevice;
 {
@@ -522,6 +541,8 @@ void *newVZVirtualMachineWithDispatchQueue(void *config, void *queue, const char
         [vm addObserver:o forKeyPath:@"state"
                 options:NSKeyValueObservingOptionNew
                 context:[str copy]];
+        ErrorDelegate *ed = [[ErrorDelegate alloc] init];
+        vm.delegate = ed;
     }
     return vm;
 }

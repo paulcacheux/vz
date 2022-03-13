@@ -21,6 +21,12 @@ bool shouldAcceptNewConnectionHandler(void *listener, void *connection, void *so
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 @end
 
+@interface ErrorDelegate : NSObject <VZVirtualMachineDelegate>
+- (void)guestDidStopVirtualMachine:(VZVirtualMachine *)virtualMachine;
+- (void)virtualMachine:(VZVirtualMachine *)virtualMachine didStopWithError:(NSError *)error;
+@property(nullable) NSError *error;
+@end
+
 /* VZVirtioSocketListener */
 @interface VZVirtioSocketListenerDelegateImpl : NSObject <VZVirtioSocketListenerDelegate>
 - (BOOL)listener:(VZVirtioSocketListener *)listener shouldAcceptNewConnection:(VZVirtioSocketConnection *)connection fromSocketDevice:(VZVirtioSocketDevice *)socketDevice;
