@@ -62,6 +62,7 @@ void setNetworkDevicesVZMACAddress(void *config, void *macAddress);
 void *newVZVirtioEntropyDeviceConfiguration(void);
 void *newVZVirtioBlockDeviceConfiguration(void *attachment);
 void *newVZDiskImageStorageDeviceAttachment(const char *diskPath, bool readOnly, void **error);
+void *newVZDiskImageStorageDeviceAttachmentWithOptions(const char *diskPath, bool readOnly, int cachingMode, int synchronizationMode, void **error);
 void *newVZVirtioTraditionalMemoryBalloonDeviceConfiguration();
 void *newVZVirtioSocketDeviceConfiguration();
 void *newVZMACAddress(const char *macAddress);

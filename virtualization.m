@@ -380,6 +380,18 @@ void *newVZDiskImageStorageDeviceAttachment(const char *diskPath, bool readOnly,
         error:(NSError * _Nullable * _Nullable)error];
 }
 
+void *newVZDiskImageStorageDeviceAttachmentWithOptions(const char *diskPath, bool readOnly, int cachingMode, int synchronizationMode, void **error)
+{
+    NSString *diskPathNSString = [NSString stringWithUTF8String:diskPath];
+    NSURL *diskURL = [NSURL fileURLWithPath:diskPathNSString];
+    return [[VZDiskImageStorageDeviceAttachment alloc]
+        initWithURL:diskURL
+        readOnly:(BOOL)readOnly
+        cachingMode:(VZDiskImageCachingMode)cachingMode
+        synchronizationMode:(VZDiskImageSynchronizationMode)synchronizationMode
+        error:(NSError * _Nullable * _Nullable)error];
+}
+
 
 /*!
  @abstract Create a configuration of the Virtio traditional memory balloon device.
