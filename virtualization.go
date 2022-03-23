@@ -19,6 +19,7 @@ func init() {
 }
 
 // VirtualMachineState represents execution state of the virtual machine.
+//go:generate stringer -type=VirtualMachineState
 type VirtualMachineState int
 
 const (
